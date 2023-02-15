@@ -1,10 +1,12 @@
 # URLSummary
 
-Experiment to summarize in Simplifed Chinese from an arbitrary web url
+Experiment to summarize the content in Simplifed Chinese from an arbitrary web url by calling ChatGPT.
+
+Your OpenAI API Key should be stored in a "openaiapikey.txt" file at the same folder as the urlsummary.py file.
 
 Usage:
 
-python urlsummary.py <url>
+    python urlsummary.py <url>
 
 ## DISCLAIMER: INFORMATIONAL AND EXPERIMENTATION PURPOSES ONLY
 
