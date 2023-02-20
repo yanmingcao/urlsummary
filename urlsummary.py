@@ -9,9 +9,9 @@ from time import time, sleep
 
 DEBUG = False
 
-MAX_SUMMARY_LENGTH = 150
+MAX_SUMMARY_LENGTH = 300
 MAX_TOKENS = 400
-MAX_CONTENT = 1800
+MAX_CONTENT = 1800 
 
 def get_content(url):
     response = requests.get(url)
@@ -75,9 +75,9 @@ def summarize_chunk(text):
     return text
 
 
-def summarize_text(text):
+def summarize_text(text, length):
     summary = text
-    while (len(summary) > MAX_SUMMARY_LENGTH):
+    while (len(summary) > length):
         chunks = textwrap.wrap(summary, MAX_CONTENT)
         chunk_summaries = list()
         for chunk in chunks:
@@ -98,30 +98,30 @@ def translate_text(text):
 if __name__ == '__main__':
     # Check if the correct number of arguments have been provided
     if len(sys.argv) < 2:
-        print("Usage: python urlsummary.py <url>")
+        print("Usage: python urlsummary.py <url> <summary_length>")
         sys.exit(1)
 
     url = sys.argv[1]
-
+    if len(sys.argv) > 2:
+        summary_length = int(sys.argv[2])
+    else:
+        summary_length = MAX_SUMMARY_LENGTH
+    
     # load the API key
     with open('openaiapikey.txt', 'r', encoding='utf-8') as infile:
         openai.api_key = infile.read()
   
-    print("Retrieving content from URL...")
+    # print("Retrieving content from URL...")
     title, content = get_content(url)
     language = detect(content)
-    print("title: %s\ncontent length:%d\nlanguage:%s\n" % (title, len(content), language))
+    # print("title: %s\ncontent length:%d\nlanguage:%s\n" % (title, len(content), language))
 
-    print("Calling OpenAI to summarize the content...")
-    summary = summarize_text(content)
+    # print("Calling OpenAI to summarize the content...")
+    summary = summarize_text(content, summary_length)
 
     if language != "zh-cn":
-        chinese_title = translate_text(title)
+        title = translate_text(title)
     
-    if language != "zh-cn":
-        print("Title: ", title)
-        print("标题: ", chinese_title)
-        print("摘要: ", summary)
-    else:
-        print("标题: ", title)
-        print("摘要: ", summary)
+    print("标题: ", title)
+    print("链接: ", url)
+    print("摘要: ", summary)

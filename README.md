@@ -6,7 +6,7 @@ Your OpenAI API Key should be stored in a "openaiapikey.txt" file at the same fo
 
 Usage:
 
-    python urlsummary.py <url>
+    python urlsummary.py <url> <summary_length>
 
 ## DISCLAIMER: INFORMATIONAL AND EXPERIMENTATION PURPOSES ONLY
 
